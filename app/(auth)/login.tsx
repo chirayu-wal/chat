@@ -70,6 +70,15 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
           ) : (
             <div className="space-y-6">
               <form action={magicLinkAction} className="space-y-4">
+                {mode === "signup" && (
+                  <Input
+                    name="name"
+                    type="text"
+                    placeholder="Your name"
+                    required
+                    className="px-4 h-12 bg-white rounded-lg border-gray-200 shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500"
+                  />
+                )}
                 <Input
                   name="email"
                   type="email"

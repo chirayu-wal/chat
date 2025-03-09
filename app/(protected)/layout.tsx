@@ -7,6 +7,7 @@ const ProtectedLayout = async ({ children }: { children: React.ReactNode }) => {
   if (!user) {
     redirect("/sign-in");
   }
+
   return children;
 };
 

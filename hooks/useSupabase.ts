@@ -4,10 +4,8 @@ import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { User, type SupabaseClient } from '@supabase/supabase-js';
 
-export type TypedSupabaseClient = SupabaseClient;
-
-export const useSupabase = (): { supabase: TypedSupabaseClient | undefined, user: User | null } => {
-  const [supabase, setSupabase] = useState<TypedSupabaseClient>();
+export const useSupabase = (): { supabase: SupabaseClient | undefined, user: User | null } => {
+  const [supabase, setSupabase] = useState<SupabaseClient>();
   const [user, setUser] = useState<User | null>(null);
   
   useEffect(() => {

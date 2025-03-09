@@ -1,5 +1,5 @@
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Bell, PhoneIcon, Pin } from "lucide-react";
 
@@ -37,6 +37,7 @@ export function ChatItem({
         }`}
       >
         <Avatar className={`h-10 w-10 ${avatarColor}`}>
+          <AvatarImage src={`https://avatar.vercel.sh/${avatar}`} />
           <AvatarFallback className="text-xs dark:text-gray-200">
             {avatar}
           </AvatarFallback>

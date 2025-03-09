@@ -44,6 +44,7 @@ export const signIn = validatedAction(signInSchema, async (data) => {
 });
 
 const signUpSchema = z.object({
+  name: z.string(),
   email: z.string().email(),
   password: z.string().min(8),
   inviteId: z.string().optional(),
@@ -51,11 +52,16 @@ const signUpSchema = z.object({
 
 export const signUp = validatedAction(signUpSchema, async (data) => {
   const supabase = await createClient();
-  const { email, password } = data;
+  const { email, password, name } = data;
 
   const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        name
+      }
+    }
   });
   if (signUpError) {
     return { error: signUpError.message };
@@ -63,7 +69,7 @@ export const signUp = validatedAction(signUpSchema, async (data) => {
   // Check if user_data entry exists and create i
   const { error: insertError } = await supabase
     .from("user_data")
-    .insert({ user_id: signUpData?.user?.id });
+    .insert({ user_id: signUpData?.user?.id, name });
 
   if (insertError) {
     console.error("Error creating user_data entry:", insertError);
@@ -71,23 +77,28 @@ export const signUp = validatedAction(signUpSchema, async (data) => {
   }
   redirect("/app");
 });
+
 export const signInWithMagicLink = validatedAction(
   z.object({
+    name: z.string(),
     email: z.string().email(),
     redirect: z.string().optional(),
     priceId: z.string().optional(),
   }),
   async (data) => {
     const supabase = await createClient();
-    const { email, priceId } = data;
+    const { name,email, priceId } = data;
     const redirectTo = `${config.domainName}/api/auth/callback`;
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
+        data: {
+          name
+        },
         emailRedirectTo: `${redirectTo}?priceId=${encodeURIComponent(
           priceId || ""
-        )}&redirect=${encodeURIComponent("/test")}`,
+        )}&redirect=${encodeURIComponent("/app")}`,
       },
     });
     if (error) {
@@ -112,7 +123,7 @@ export const signInWithGoogle = async (
       options: {
         redirectTo: `${redirectTo}?priceId=${encodeURIComponent(
           priceId || ""
-        )}&redirect=/test`,
+        )}&redirect=/app`,
       },
     });
     if (signInError) {

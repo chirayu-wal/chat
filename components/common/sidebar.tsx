@@ -1,19 +1,35 @@
-import React from 'react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+"use client";
+import React, { useEffect, useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { BarChart2, Home, Layers, Menu, MessageCircle, Moon, PanelLeft, Settings, Star, Sun, Users } from 'lucide-react';
 import Link from 'next/link';
 import { useSupabase } from '@/hooks/useSupabase';
 
 
-const Sidebar =  ({darkMode, toggleDarkMode}: {darkMode: boolean, toggleDarkMode: () => void}) => {
+const Sidebar =  () => {
+  const [darkMode, setDarkMode] = useState(false);
   const { user } = useSupabase();
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  // Apply dark mode class to html element
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
     <div className="flex w-16 flex-col items-center border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 py-4">
     <div className="mb-6">
       <Link href="/account">
       <Avatar className="h-8 w-8 bg-green-500 text-white">
+        <AvatarImage src={`https://avatar.vercel.sh/${user?.email?.slice}`} />
         <AvatarFallback className='uppercase text-black'>{user?.email?.slice(0, 2)}</AvatarFallback>
       </Avatar>
       </Link>
