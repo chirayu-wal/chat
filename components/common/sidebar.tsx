@@ -2,16 +2,21 @@ import React from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { BarChart2, Home, Layers, Menu, MessageCircle, Moon, PanelLeft, Settings, Star, Sun, Users } from 'lucide-react';
+import Link from 'next/link';
+import { useSupabase } from '@/hooks/useSupabase';
 
 
-const Sidebar = ({darkMode, toggleDarkMode}: {darkMode: boolean, toggleDarkMode: () => void}) => {
-    
+const Sidebar =  ({darkMode, toggleDarkMode}: {darkMode: boolean, toggleDarkMode: () => void}) => {
+  const { user } = useSupabase();
+
   return (
     <div className="flex w-16 flex-col items-center border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 py-4">
     <div className="mb-6">
+      <Link href="/account">
       <Avatar className="h-8 w-8 bg-green-500 text-white">
-        <AvatarFallback>P</AvatarFallback>
+        <AvatarFallback className='uppercase text-black'>{user?.email?.slice(0, 2)}</AvatarFallback>
       </Avatar>
+      </Link>
     </div>
     <nav className="flex flex-1 flex-col items-center space-y-4">
       <Button

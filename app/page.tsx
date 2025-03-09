@@ -1,53 +1,24 @@
-"use client";
-import { useState, useEffect } from "react";
-import Topbar from "@/components/common/topbar";
-import Sidebar from "@/components/common/sidebar";
-import { chatItems } from "@/lib/chatData";
-import ChatHeader from "@/components/chats/chatHeader";
-import ChatSection from "@/components/chats/chatSection";
-import { ChatItem } from "@/components/chats/chatItem";
+import { Button } from "@/components/ui/button";
+import { getUser } from "@/queries/user";
+import Link from "next/link";
+import React from "react";
 
-export default function Page() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
-  // Apply dark mode class to html element
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
+const page = async () => {
+  const user = await getUser();
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gray-100 dark:bg-gray-900">
-      <Sidebar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-
-      <div className="flex flex-col h-screen w-full overflow-hidden bg-gray-100 dark:bg-gray-900">
-        {/* Left Sidebar - Navigation */}
-        <Topbar />
-        <div className="flex flex-1">
-          {/* Chat List */}
-          <div className="w-[30rem] flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-            <ChatHeader />
-
-            <div className="h-[calc(100vh-9.5rem)] overflow-y-auto">
-              {/* Chat items */}
-              {chatItems.map((item, index) => (
-                <ChatItem key={index} {...item} />
-              ))}
-            </div>
-          </div>
-
-          {/* Chat Content */}
-          <ChatSection />
-        </div>
-      </div>
+    <div className="flex flex-col h-screen w-full justify-center items-center gap-4 overflow-hidden bg-gray-100 dark:bg-gray-900">
+      <h1 className="text-7xl font-bold">Welcome to Le Chat</h1>
+      {user ? (
+        <Link href="/app">
+          <Button>Go to App</Button>
+        </Link>
+      ) : (
+        <Link href="/sign-in">
+          <Button>Sign In</Button>
+        </Link>
+      )}
     </div>
   );
-}
+};
+
+export default page;

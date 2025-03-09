@@ -65,6 +65,7 @@ export function LoginForm({
                 {isLogin ? "Login" : "Sign Up"}
               </Button>
               <Button variant="outline" className="w-full">
+                
                 {isLogin ? "Login with Google" : "Sign Up with Google"}
               </Button>
             </div>

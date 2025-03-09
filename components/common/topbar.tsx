@@ -14,7 +14,7 @@ const Topbar = () => {
     <div className="flex justify-between items-center space-x-4 pl-6 pr-2 py-2 bg-white dark:bg-gray-800 border-b">
       <div className="flex items-center space-x-2">
         <MessageCircleIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-        <span className="text-gray-500 dark:text-gray-400">Chats</span>
+        <span className="text-gray-500 dark:text-gray-400">Le Chats</span>
       </div>
       <div className="flex items-center space-x-4 px-6 py-2">
         <Button variant={"outline"}>
